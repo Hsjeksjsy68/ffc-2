@@ -1,12 +1,4 @@
-export type Feature = 'news' | 'schedule' | 'map' | 'art' | 'analyzer' | 'players' | 'moderator' | 'contact';
-
-export enum AspectRatio {
-  SQUARE = '1:1',
-  PORTRAIT = '9:16',
-  LANDSCAPE = '16:9',
-  PHOTO_PORTRAIT = '3:4',
-  PHOTO_LANDSCAPE = '4:3'
-}
+export type Feature = 'news' | 'schedule' | 'analyzer' | 'players' | 'moderator' | 'contact';
 
 export interface GroundingChunk {
   web?: {
@@ -31,9 +23,18 @@ export interface NewsResult {
   sources: GroundingChunk[];
 }
 
+// FIX: Added missing types for FindUsSection and FanArtGenerator components.
 export interface MapResult {
   text: string;
   sources: GroundingChunk[];
+}
+
+export enum AspectRatio {
+  SQUARE = '1:1',
+  PORTRAIT_3_4 = '3:4',
+  LANDSCAPE_4_3 = '4:3',
+  PORTRAIT_9_16 = '9:16',
+  LANDSCAPE_16_9 = '16:9',
 }
 
 export interface ImageResult {
