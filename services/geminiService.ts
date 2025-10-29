@@ -1,6 +1,7 @@
 
-import { GoogleGenAI, GenerateContentResponse, GroundingChunk as GenAIGroundingChunk } from "@google/genai";
-import { NewsResult, MapResult, ImageResult, AnalysisResult, AspectRatio, GroundingChunk } from '../types';
+import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+// FIX: Added imports for new types to support FindUsSection and FanArtGenerator.
+import { NewsResult, AnalysisResult, GroundingChunk, MapResult, ImageResult, AspectRatio } from '../types';
 
 export const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -28,13 +29,14 @@ export const getLatestNews = async (prompt: string): Promise<NewsResult> => {
   return { text, sources };
 };
 
+// FIX: Added findPlaces function to support the FindUsSection component.
 export const findPlaces = async (prompt: string, location: GeolocationCoordinates): Promise<MapResult> => {
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
   const response: GenerateContentResponse = await ai.models.generateContent({
     model: "gemini-2.5-flash",
-    contents: `For Flameunter FC, find places related to: ${prompt}`,
+    contents: `Regarding Flameunter FC, ${prompt}`,
     config: {
-      tools: [{ googleMaps: {} }],
+      tools: [{googleMaps: {}}],
       toolConfig: {
         retrievalConfig: {
           latLng: {
@@ -53,24 +55,24 @@ export const findPlaces = async (prompt: string, location: GeolocationCoordinate
   return { text, sources };
 };
 
+// FIX: Added generateFanArt function to support the FanArtGenerator component.
 export const generateFanArt = async (prompt: string, aspectRatio: AspectRatio): Promise<ImageResult> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
-  const response = await ai.models.generateImages({
-    model: 'imagen-4.0-generate-001',
-    prompt: `Epic fan art for Flameunter FC: ${prompt}`,
-    config: {
-      numberOfImages: 1,
-      outputMimeType: 'image/jpeg',
-      aspectRatio: aspectRatio,
-    },
-  });
+    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+    const response = await ai.models.generateImages({
+        model: 'imagen-4.0-generate-001',
+        prompt: `Flameunter FC fan art: ${prompt}`,
+        config: {
+          numberOfImages: 1,
+          outputMimeType: 'image/jpeg',
+          aspectRatio: aspectRatio,
+        },
+    });
 
-  const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
-  const imageUrl = `data:image/jpeg;base64,${base64ImageBytes}`;
-  
-  return { url: imageUrl, prompt };
+    const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
+    const imageUrl = `data:image/jpeg;base64,${base64ImageBytes}`;
+    
+    return { url: imageUrl, prompt };
 };
-
 
 export const analyzeMatchPhoto = async (prompt: string, imageBase64: string, mimeType: string): Promise<AnalysisResult> => {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
