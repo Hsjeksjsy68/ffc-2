@@ -2,14 +2,12 @@
 import React, { useState } from 'react';
 import { Feature } from './types';
 import NewsSection from './components/NewsSection';
-import FindUsSection from './components/FindUsSection';
-import FanArtGenerator from './components/FanArtGenerator';
-import MatchAnalyzer from './components/MatchAnalyzer';
 import PlayerSection from './components/PlayerSection';
 import ModeratorSection from './components/ModeratorSection';
 import ScheduleSection from './components/ScheduleSection';
 import ContactSection from './components/ContactSection';
-import { LogoIcon, NewsIcon, MapIcon, ArtIcon, AnalyzeIcon, PlayersIcon, ModeratorIcon, MenuIcon, CloseIcon, CalendarDaysIcon, EnvelopeIcon } from './components/Icons';
+import MatchAnalyzer from './components/MatchAnalyzer';
+import { LogoIcon, NewsIcon, AnalyzeIcon, PlayersIcon, ModeratorIcon, MenuIcon, CloseIcon, CalendarDaysIcon, EnvelopeIcon } from './components/Icons';
 
 const App: React.FC = () => {
   const [activeFeature, setActiveFeature] = useState<Feature>('news');
@@ -26,10 +24,6 @@ const App: React.FC = () => {
         return <NewsSection />;
       case 'schedule':
         return <ScheduleSection />;
-      case 'map':
-        return <FindUsSection />;
-      case 'art':
-        return <FanArtGenerator />;
       case 'analyzer':
         return <MatchAnalyzer />;
       case 'players':
@@ -74,8 +68,6 @@ const App: React.FC = () => {
   const navItems = [
       { feature: 'news' as Feature, label: 'Latest News', icon: <NewsIcon className="h-6 w-6" /> },
       { feature: 'schedule' as Feature, label: 'Schedule', icon: <CalendarDaysIcon className="h-6 w-6" /> },
-      { feature: 'map' as Feature, label: 'Find Us', icon: <MapIcon className="h-6 w-6" /> },
-      { feature: 'art' as Feature, label: 'Fan Art', icon: <ArtIcon className="h-6 w-6" /> },
       { feature: 'analyzer' as Feature, label: 'Analyzer', icon: <AnalyzeIcon className="h-6 w-6" /> },
       { feature: 'players' as Feature, label: 'Club Players', icon: <PlayersIcon className="h-6 w-6" /> },
       { feature: 'moderator' as Feature, label: 'Moderator', icon: <ModeratorIcon className="h-6 w-6" /> },
